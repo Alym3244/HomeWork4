@@ -12,6 +12,8 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
     Button btnOpenFragment;
     EditText etValue;
+    boolean  res=true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,15 @@ public class MainActivity extends AppCompatActivity {
                 String text = etValue.getText().toString();
                 if (!text.equals("")) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.container_fragment, FirstFragment.newInstance(text, "TEXT2"));
-                    transaction.addToBackStack("FirstFragment");
+                    if (res) {
+                        transaction.replace(R.id.container_fragment, FirstFragment.newInstance(text, "TEXT2"));
+                        transaction.addToBackStack("FirstFragment");
+                        res = false;
+                    }else {
+                        transaction.replace(R.id.container_fragment, SecondFragment.newInstance(text, "TEXT2"));
+                        transaction.addToBackStack("SecondFragment");
+                        res = true;
+                    }
                     transaction.commit();
                 }else {etValue.setError("Please, enter text");} }
         });
